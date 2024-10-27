@@ -1,6 +1,10 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
+
 const app = express()
+app.use(cors())
+app.use(express.static('dist'))
 
 morgan.token('data', function getId (req) {
     if (req.method === 'POST'){
@@ -8,9 +12,10 @@ morgan.token('data', function getId (req) {
     }
   })
 
+
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
-app.use(express.static('dist'))
+
 
 let persons = [
     {
@@ -34,10 +39,6 @@ let persons = [
         "id": "4"
     }
   ]
-
-const cors = require('cors')
-
-app.use(cors())
 
   app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
